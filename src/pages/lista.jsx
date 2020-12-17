@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import "../assets/css/estilo.css";
 
 class ListaAlunos extends Component {
-  handleClick = () => {
-    console.log("this is:", this);
-  };
-
   render() {
     const alunos = this.props.alunos;
 
@@ -19,10 +15,7 @@ class ListaAlunos extends Component {
           <div className="lista">
             <div className="busca-aluno">
               <input placeholder="Insira o nome do aluno"></input>
-              <button title="Pesquisar">
-                {/* <i class="fas fa-search"></i> */}
-                Pesquisar
-              </button>
+              <button>Pesquisar</button>
             </div>
             <table>
               <thead>
@@ -46,16 +39,10 @@ class ListaAlunos extends Component {
                     <td>{aluno.telEmerg}</td>
                     <td>{aluno.contEmerg}</td>
                     <td>
-                      <button title="Editar">
-                        Editar
-                        {/* <i className="fas fa-user-edit"></i> */}
-                      </button>
+                      <button onClick={() => this.props.editar(aluno)}>Editar</button>
                     </td>
                     <td>
-                      <button title="Excluir">
-                        Excluir
-                        {/* <i classNamess="far fa-trash-alt"></i> */}
-                      </button>
+                      <button onClick={() => this.props.excluir(aluno)}>Excluir</button>
                     </td>
                   </tr>
                 ))}
