@@ -1,16 +1,16 @@
 /*
     aluno = {
-      nome: "",
+      nomeParente: "",
       dataNasc: dd/mm/aaaa,
       nomeResp: "",
-      telResp: (00) 00000-0000,
+      telResp: (00) [9]0000-0000,
       contEmerg: "",
-      telEmerg: (00) 00000-0000,
+      telEmerg: (00) [9]0000-0000,
       restAlim: true/false,
       descRestAlim: "",
       usoImg: true/false,
-      autBusc: [ {"",""} ],
       turma: "",
+      podeBuscar: [ {nomeParente: "", parentesco: ""} ],
       obsAdic: "",
     }
 */
@@ -24,6 +24,7 @@ export const grausParentesco = [
   "Padrinho",
   "Avó",
   "Avô",
+  "Outro",
 ];
 
 export const turmas = [
@@ -45,40 +46,49 @@ export const alunos = [
   {
     nome: "Huguinho",
     dataNasc: "15/04/1938",
-    turma: "3A",
+    nomeResp: "Donald",
+    telResp: "(98) 98765-1234",
+    contEmerg: "Patinhas",
     telEmerg: "(12) 98765-4321",
-    contEmerg: "Patinhas - Tio",
-    autBusc: [
-      { nome: "Donald", parentesco: "Tio" },
-      { nome: "Patinhas", parentesco: "Tio" },
-      { nome: "Margarida", parentesco: "Tia" },
-    ],
+    restAlim: false,
+    descRestAlim: "",
     usoImg: true,
+    turma: "3A",
+    podeBuscar: [
+      { nomeParente: "Donald", parentesco: "Tio" },
+      { nomeParente: "Patinhas", parentesco: "Tio" },
+    ],
   },
   {
     nome: "Zezinho",
     dataNasc: "16/04/1938",
-    turma: "3B",
-    telEmerg: "(98) 76543-4321",
-    contEmerg: "Donald - Tio",
-    autBusc: [
-      { nome: "Donald", parentesco: "Tio" },
-      { nome: "Patinhas", parentesco: "Tio" },
-      { nome: "Margarida", parentesco: "Tia" },
-    ],
+    nomeResp: "Patinhas",
+    telResp: "(12) 98765-4321",
+    contEmerg: "Margarida",
+    telEmerg: "(01) 2345-6789",
+    restAlim: false,
+    descRestAlim: "",
     usoImg: false,
+    turma: "3B",
+    podeBuscar: [
+      { nomeParente: "Patinhas", parentesco: "Tio" },
+      { nomeParente: "Margarida", parentesco: "Tia" },
+    ],
   },
   {
     nome: "Luizinho",
     dataNasc: "17/04/1938",
-    turma: "3C",
-    telEmerg: "(00) 13245-6789",
-    contEmerg: "Margarida - Tia",
-    autBusc: [
-      { nome: "Donald", parentesco: "Tio" },
-      { nome: "Patinhas", parentesco: "Tio" },
-      { nome: "Margarida", parentesco: "Tia" },
-    ],
+    nomeResp: "Margarida",
+    telResp: "(01) 2345-6789",
+    contEmerg: "Donald",
+    telEmerg: "(98) 98765-1234",
+    restAlim: false,
+    descRestAlim: "",
     usoImg: true,
+    turma: "3C",
+    podeBuscar: [
+      { nomeParente: "Margarida", parentesco: "Tia" },
+      { nomeParente: "Donald", parentesco: "Tio" },
+    ],
   },
 ];

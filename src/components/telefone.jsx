@@ -1,17 +1,10 @@
-import { Component } from "react";
+import { Field } from "formik";
 
-class Telefone extends Component {
-  render() {
-    return (
-      <input
-        name={this.props.name}
-        placeholder="Ex.: (00) 00000-0000"
-        pattern="\([\d]{2}\) [\d]{5}-[\d]{4}"
-        maxLength="15"
-        type="text"
-      />
-    );
-  }
-}
-
-export default Telefone;
+export const Telefone = (values) => (
+  <Field
+    className={values.className}
+    name={values.name}
+    placeholder="Ex.: (00) 0000-0000"
+    type="text"
+  />
+);
