@@ -1,75 +1,99 @@
-import React from "react";
+import { Component } from "react";
 import Pagina from "../components/pagina";
 import Secao from "../components/secao";
 import FormularioCadastro from "./formulario";
 import ListaAlunos from "./lista";
-import { alunos } from "../util/constantes";
+import AlunosService from "../services/aluno";
 
-class Principal extends React.Component {
+export default class Principal extends Component {
   constructor(props) {
     super(props);
-
-    // this.state = {};
     this.state = { alunos: [] };
   }
 
   componentDidMount() {
+    this.carregarAlunos();
+  }
+
+  async carregarAlunos() {
+    const alunos = await AlunosService.buscarAlunos();
     this.setState({ alunos: alunos });
   }
 
-  componentDidUpdate(prevState) {
-    if (this.state.alunoEmEdicao === prevState.alunoEmEdicao) {
+  adicionarAluno = (aluno) => {
+    if (aluno.id) {
+      // console.log("atualizarAluno:", aluno);
+      AlunosService.atualizarAluno(aluno)
+        .then(() => {
+          this.carregarAlunos();
+          this.setState({ alunoEmEdicao: null });
+        })
+        .catch((erro) => {
+          throw erro;
+        });
       return;
     }
-  }
 
-  editarAluno(aluno) {
-    console.log("Aluno em edição:", aluno);
+    // console.log("adicionarAluno:", aluno);
+    AlunosService.adicionarAluno(aluno)
+      .then(() => {
+        this.carregarAlunos();
+        this.setState({ alunoEmEdicao: null });
+      })
+      .catch((erro) => {
+        throw erro;
+      });
+  };
+
+  editarAluno = (aluno) => {
+    // console.log("editarAluno:", aluno);
     this.setState({ alunoEmEdicao: aluno });
+  };
+
+  cancelarEdicao = () => {
+    // console.log("cancelarEdicao:", this.state.alunoEmEdicao);
+    this.setState({ alunoEmEdicao: null });
+  };
+
+  excluirAluno = (aluno) => {
+    // console.log("excluirAluno:", aluno);
+    AlunosService.excluirAluno(aluno.id)
+      .then(() => this.carregarAlunos())
+      .catch((erro) => {
+        throw erro;
+      });
+  };
+
+  async buscarAluno(nomeAluno) {
+    const alunosBuscados = await AlunosService.buscarAluno(nomeAluno).catch((erro) => {
+      throw erro;
+    });
+
+    // console.log(`buscarAluno("${nomeAluno}"):`, alunosBuscados);
+    this.setState({ alunos: alunosBuscados });
   }
-
-  cancelarEdicao() {
-    if (this.state.alunoEmEdicao) {
-      console.log("Edição do aluno cancelada:", this.state.alunoEmEdicao.nome);
-      this.setState({ alunoEmEdicao: "" });
-    }
-  }
-
-  excluirAluno(aluno) {
-    const alunosAux = this.state.alunos.filter(
-      (alunoAux) => alunoAux.nome !== aluno.nome
-    );
-    this.setState({ alunos: alunosAux });
-
-    console.log("Aluno excluído:", aluno);
-  }
-
-  // adicionarAluno(aluno) {
-  //   const alunosAux = this.state.alunos;
-  //   alunosAux.push(aluno);
-  //   this.setState({ alunos: alunosAux });
-
-  //   console.log("Aluno adicionado:", aluno);
-  // }
 
   render() {
     return (
-      <>
-        <Pagina>
+      <Pagina>
+        <div className="conteudo">
           <Secao title="Cadastro do Aluno">
-            <FormularioCadastro cancelar={() => this.cancelarEdicao()} />
+            <FormularioCadastro
+              alunoEmEdicao={this.state.alunoEmEdicao}
+              adicionar={(aluno) => this.adicionarAluno(aluno)}
+              cancelar={() => this.cancelarEdicao()}
+            />
           </Secao>
           <Secao title="Lista de Alunos">
             <ListaAlunos
               alunos={this.state.alunos}
               editar={(aluno) => this.editarAluno(aluno)}
               excluir={(aluno) => this.excluirAluno(aluno)}
+              buscar={(nomeAluno) => this.buscarAluno(nomeAluno)}
             ></ListaAlunos>
           </Secao>
-        </Pagina>
-      </>
+        </div>
+      </Pagina>
     );
   }
 }
-
-export default Principal;
